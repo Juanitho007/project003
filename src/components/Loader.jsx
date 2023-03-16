@@ -3,7 +3,7 @@ import React from 'react';
 const Loader = () => {
   return (
     <div className="Loader">
-      <img src="/public/img/rick.png" alt="" />
+      <img src="/img/rick.png" alt="" />
       <div className="loader__footer">
         <marquee>
           <a

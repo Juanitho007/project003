@@ -1,17 +1,33 @@
 import React from 'react';
-const LocationInfo = ({ name, type, residents }) => {
+import Search from './Search';
+
+const LocationInfo = ({
+  name,
+  type,
+  residents,
+  handleSelect,
+  value,
+  setInput,
+  input,
+}) => {
   return (
-    <>
-      <div className="header__container">
-        <img className="imagen__fixed" src="/public/img/back.png" alt="" />
-        <p className="title">Rick and Morty</p>
-        <div className='info__container'>
-          <p>DIMENSION: {name.toUpperCase()}</p>
-          <p>TYPE: {type.toUpperCase()}</p>
-          <p>POPULATION: {residents.length}</p>
-        </div>
+    <div className="location__container">
+      <p>Rick and Morty</p>
+      <div className="info">
+        <p>DIMENSION: {name.toUpperCase()}</p>
+        <p>TYPE: {type.toUpperCase()}</p>
+        <p>POPULATION: {residents.length}</p>
       </div>
-    </>
+      <Search
+        handleSelect={handleSelect}
+        value={value}
+        setInput={setInput}
+        input={input}
+      />
+      <div className="general__img">
+        <img src="/img/rick.png" alt="" />
+      </div>
+    </div>
   );
 };
 

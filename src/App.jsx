@@ -4,11 +4,30 @@ import axios from 'axios';
 import Loader from './components/Loader';
 import LocationInfo from './components/LocationInfo';
 import ResidentInfo from './components/ResidentInfo';
-import Search from './components/Search';
+
 const App = () => {
   const [infoLocation, setInfoLocation] = useState(null);
   const [dimension, setDimension] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [input, setInput] = useState('');
+
   const getIdLocationRandom = () => getRandomNumber(1, 126);
+
+  const getLocation = async () => {
+    try {
+      const url = `https://rickandmortyapi.com/api/location/${getIdLocationRandom()}`;
+      const response = await axios.get(url);
+      setInfoLocation(response.data);
+    } catch (error) {
+      console.log('Parece que hay un error', error);
+    }
+    setIsLoading(false);
+  };
+
+  const handleSelect = (id) => {
+    setDimension(id);
+    setInput('');
+  };
 
   const getLocationDimension = async (dimension) => {
     try {
@@ -20,33 +39,38 @@ const App = () => {
     }
   };
 
-  const getLocation = async () => {
-    try {
-      const url = `https://rickandmortyapi.com/api/location/${getIdLocationRandom()}`;
-      const response = await axios.get(url);
-      setInfoLocation(response.data);
-    } catch (error) {
-      console.log('Parece que hay un error', error);
-    }
-  };
   useEffect(() => {
     if (dimension !== null) {
       getLocationDimension(dimension);
     } else {
-      getLocation();
+      setIsLoading(true);
+      setTimeout(() => {
+        getLocation();
+      }, 3000);
     }
   }, [dimension]);
 
   return (
     <div className="App">
-      {infoLocation ? <LocationInfo {...infoLocation} /> : <Loader />}
-      <Search handleSelect={setDimension} value={dimension} />
-      <section className="cards__Location">
-        {infoLocation &&
-          infoLocation.residents.map((resident) => (
-            <ResidentInfo key={resident} urlResident={resident} />
-          ))}
-      </section>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <LocationInfo
+            {...infoLocation}
+            handleSelect={handleSelect}
+            value={dimension}
+            setInput={setInput}
+            input={input}
+          />
+          <section className="cards">
+            {infoLocation &&
+              infoLocation.residents.map((resident) => (
+                <ResidentInfo key={resident} urlResident={resident} />
+              ))}
+          </section>
+        </>
+      )}
     </div>
   );
 };
