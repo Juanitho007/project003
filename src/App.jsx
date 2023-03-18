@@ -46,7 +46,7 @@ const App = () => {
       setIsLoading(true);
       setTimeout(() => {
         getLocation();
-      }, 3000);
+      }, 1500);
     }
   }, [dimension]);
 
