@@ -116,7 +116,7 @@ body {
 }
 .dead {
   background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(255, 0, 0) 100%);
-  opacity: 0.75;
+  opacity: 0.95;
 }
 .general__img {
   position: fixed;
